@@ -1,5 +1,6 @@
 const clear = document.querySelector(".clear");
 const dateElement = document.getElementById("date");
+const dateElement2 = document.getElementById("date2");
 const list = document.getElementById("list");
 const input = document.getElementById("input");
 
@@ -7,21 +8,25 @@ const check = 'fa-check-circle';
 const uncheck = 'fa-circle-thin';
 const line_through = 'lineThrough';
 
-let LIST, id;
+let LIST, id, date;
 let data = localStorage.getItem('TODO');
 
 if(data) {
    LIST = JSON.parse(data);
    id = LIST.length;
+   const today = new Date();
+   date = today.toLocaleDateString('en-us', {month: 'long', day: 'numeric', hour:'numeric', minute:'numeric'});
    loadList(LIST);
 } else {
    LIST = [];
    id = 0;
+   const today = new Date();
+   date = today.toLocaleDateString('en-us', {month: 'long', day: 'numeric', hour:'numeric', minute:'numeric'});
 }
 
 function loadList(array){
    array.forEach(i => {
-      addToDo(i.name, i.id, i.done, i.trash)
+      addToDo(i.name, i.id, i.date, i.done, i.trash)
    });
 }
 
@@ -33,17 +38,18 @@ clear.addEventListener('click', () => {
 const today = new Date();
 dateElement.innerHTML = today.toLocaleDateString('en-us', {weekday: 'long', month: 'long', day: 'numeric'});
 
-function addToDo(toDo, id, done, trash){
+function addToDo(toDo, id, date, done, trash){
    if(trash){
       return;
    }
    
    const DONE = done ? check : uncheck;
-   const LINE = done ? line_through : '';   
+   const LINE = done ? line_through : '';
    const item = `
          <li class='item'>
             <i class='fa ${DONE} co' job='complete' id='${id}'></i>
             <p class='text ${LINE}'>${toDo}</p>
+            <div id="date2">${date}</div>
             <i class='fa fa-trash-o de' job='delete' id='${id}'></i>
          </li>`
    
@@ -55,11 +61,12 @@ document.addEventListener('keyup', (e) => {
       const toDo = input.value;
       
       if(toDo) {
-         addToDo(toDo, id, false, false);
+         addToDo(toDo, id, date, false, false);
          
          LIST.push({
             name: toDo, 
             id: id,
+            date: date,
             done: false,
             trash: false
          });

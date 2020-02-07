@@ -49,6 +49,20 @@ body {
    font-size: 1.8rem;
 }
 
+#date2{
+   position: absolute; 
+   top: 50%;
+   transform: translateY(-50%);
+   right: 50px;
+   color: #fff;
+   background: green;
+   padding: 0 6px;
+}
+
+#bg {
+   background: crimson;
+}
+
 /* ------------ content ------------ */
 .content{
    width: 600px;
@@ -94,7 +108,7 @@ body {
 }
 
 .item i.co:hover {cursor: pointer;}
-.fa-check-circle {color:teal;}
+.fa-check-circle {color:crimson;}
 
 .item p.text{
    position: absolute;
