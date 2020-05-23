@@ -15,13 +15,13 @@ if(data) {
    LIST = JSON.parse(data);
    id = LIST.length;
    const today = new Date();
-   date = today.toLocaleDateString('en-us', {month: 'long', day: 'numeric', hour:'numeric', minute:'numeric'});
+   date = today.toLocaleDateString('en-us', {month: 'long', day: 'numeric'});
    loadList(LIST);
 } else {
    LIST = [];
    id = 0;
    const today = new Date();
-   date = today.toLocaleDateString('en-us', {month: 'long', day: 'numeric', hour:'numeric', minute:'numeric'});
+   date = today.toLocaleDateString('en-us', {month: 'long', day: 'numeric'});
 }
 
 function loadList(array){
@@ -30,14 +30,17 @@ function loadList(array){
    });
 }
 
+// clear the list
 clear.addEventListener('click', () => {
    localStorage.clear();
    location.reload();
 })
 
+// Date
 const today = new Date();
 dateElement.innerHTML = today.toLocaleDateString('en-us', {weekday: 'long', month: 'long', day: 'numeric'});
 
+// Appending a todo to list
 function addToDo(toDo, id, date, done, trash){
    if(trash){
       return;
@@ -56,13 +59,13 @@ function addToDo(toDo, id, date, done, trash){
    list.insertAdjacentHTML('beforeend', item);
 }
 
+// When click 'enter' add a todo 
 document.addEventListener('keyup', (e) => {
    if(e.keyCode == 13){
       const toDo = input.value;
       
       if(toDo) {
          addToDo(toDo, id, date, false, false);
-         
          LIST.push({
             name: toDo, 
             id: id,
@@ -74,10 +77,14 @@ document.addEventListener('keyup', (e) => {
          localStorage.setItem("TODO", JSON.stringify(LIST));
          id++;
       }
+      else {
+         window.alert("Insert To Do")
+      }
       input.value = '';
    }
 })
 
+// Completed item
 function completeToDo(element) {
    element.classList.toggle(check);
    element.classList.toggle(uncheck);
@@ -85,11 +92,13 @@ function completeToDo(element) {
    LIST[element.id].done = LIST[element.id].done ? false : true;
 }
 
+//Remove item
 function removeToDo(element) {
    element.parentNode.parentNode.removeChild(element.parentNode);
    LIST[element.id].trash = true;
 }
 
+// Remove or complete on click
 list.addEventListener('click', (e) => {
    const element = e.target;
    const elementJob = element.attributes.job.value;
