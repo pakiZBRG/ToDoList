@@ -175,7 +175,7 @@ input:focus {outline:none;}
 
 @media (max-width: 1100px) {
    .container{
-      width: 95%;
+      width: 100%;
       overflow: hidden;
    }
 }
